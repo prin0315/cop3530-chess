@@ -23,16 +23,10 @@ Graph::Graph() {}
 
 void Graph::insertGame(Game game)
 {
-	if (game.winner == game.whiteID)
-	{
-		pair<string, Game> newGame(game.blackID, game);
-		adjList[game.whiteID].push_back(newGame);
-	}
-	else
-	{
-		pair<string, Game> newGame(game.whiteID, game);
-		adjList[game.blackID].push_back(newGame);
-	}
+	pair<string, Game> newGame1(game.blackID, game);
+	adjList[game.whiteID].push_back(newGame1);
+	pair<string, Game> newGame2(game.whiteID, game);
+	adjList[game.blackID].push_back(newGame2);
 }
 
 void Graph::printNames()
