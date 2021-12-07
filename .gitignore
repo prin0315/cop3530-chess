@@ -3,6 +3,9 @@
 ##
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
+#CHESS DATA CSV
+*.csv
+
 # User-specific files
 *.rsuser
 *.suo
@@ -338,4 +341,3 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
-/Project5/chess_games.csv
