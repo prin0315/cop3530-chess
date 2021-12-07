@@ -6,8 +6,10 @@
 
 class Reader
 {
+private:
 	string file_location;
 	ifstream file;
+public:
 	Reader(string file_location);
 	Game read();
 };

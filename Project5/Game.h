@@ -18,4 +18,4 @@ struct Game
     string timeControl;
     string termination;
     string an;
-}
+};
