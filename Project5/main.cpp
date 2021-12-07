@@ -18,7 +18,13 @@ int main()
 		Game g = reader.read();
 		graph.insertGame(g);
 	}
+
+	//debug stuff
 	graph.printNames();
+	cout << "ENTER NAME" << endl;
+	string name;
+	cin >> name;
+	graph.printWins(name);
 
 	return 0;
 }

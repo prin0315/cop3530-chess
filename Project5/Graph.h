@@ -14,7 +14,9 @@ private:
 public:
 	Graph();
 	void insertGame(Game game);
-	void printNames(); //mainly for debug
+	// Functions below are mainly for debug, not necessarily actual proper graph algorithms
+	void printNames(); 
+	void printWins(string name);
 };
 
 Graph::Graph() {}
@@ -38,5 +40,14 @@ void Graph::printNames()
 	for (auto iter = adjList.begin(); iter != adjList.end(); iter++)
 	{
 		cout << iter->first << endl;
+	}
+}
+
+void Graph::printWins(string name)
+{
+	for (pair<string, Game> p : adjList[name])
+	{
+		string ratingDiff = p.second.winner == p.second.whiteID ? p.second.whiteRatingDiff : p.second.blackRatingDiff;
+		cout << "Opponent: " << p.first << "Rating Diff: " << ratingDiff << endl;
 	}
 }
