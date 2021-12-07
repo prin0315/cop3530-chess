@@ -7,10 +7,12 @@ using namespace std;
 
 int main()
 {
+	//Number of games to be read from CSV
 	cout << "Input N = ";
 	int n;
 	cin >> n;
 
+	//Creates graph and loads in data
 	Reader reader("chess_games.csv");
 	Graph graph;
 	for (int i = 0; i < n; i++)
@@ -19,8 +21,15 @@ int main()
 		graph.insertGame(g);
 	}
 
-	//debug stuff
-	graph.printNames();
+	//debug stuff, prints first 500 names in graph and asks for a user whose opponents can be listed
+	if (n < 500)
+		graph.printNames();
+	else
+	{
+		graph.printNames(500);
+		cout << "(only first 500 printed)" << endl;
+	}
+
 	cout << "ENTER NAME" << endl;
 	string name;
 	cin >> name;

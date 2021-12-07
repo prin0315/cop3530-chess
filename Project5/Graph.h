@@ -14,8 +14,8 @@ private:
 public:
 	Graph();
 	void insertGame(Game game);
-	// Functions below are mainly for debug, not necessarily actual proper graph algorithms
-	void printNames(); 
+	// Functions below are mainly for debug, not necessarily actual proper graph algorithms or even well implemented
+	void printNames(int n = INT_MAX); 
 	void printWins(string name);
 };
 
@@ -29,11 +29,16 @@ void Graph::insertGame(Game game)
 	adjList[game.blackID].push_back(newGame2);
 }
 
-void Graph::printNames()
+void Graph::printNames(int n)
 {
+	int count = 0;
 	for (auto iter = adjList.begin(); iter != adjList.end(); iter++)
 	{
 		cout << iter->first << endl;
+
+		count++;
+		if (count >= n)
+			break;
 	}
 }
 
