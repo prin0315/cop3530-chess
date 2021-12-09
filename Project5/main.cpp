@@ -35,6 +35,8 @@ int main()
 	cin >> name;
 	graph.printWins(name);
 	graph.matchmake(name);
+	cout << "##########################DFS#########################" << endl;
+	graph.matchmakeDfs(name);
 
 	return 0;
 }
