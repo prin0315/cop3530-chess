@@ -33,9 +33,7 @@ int main()
 	cout << "ENTER NAME" << endl;
 	string name;
 	cin >> name;
-	graph.printWins(name);
-	graph.matchmake(name);
-	graph.matchmakeDfs(name);
+	graph.primAlgorithm(name);
 
 	return 0;
 }
