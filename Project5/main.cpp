@@ -34,6 +34,7 @@ int main()
 	string name;
 	cin >> name;
 	graph.printWins(name);
+	graph.matchmake(name);
 
 	return 0;
 }
