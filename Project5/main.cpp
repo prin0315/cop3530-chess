@@ -21,21 +21,11 @@ int main()
 		graph.insertGame(g);
 	}
 
-	//debug stuff, prints first 500 names in graph and asks for a user whose opponents can be listed
-	if (n < 500)
-		graph.printNames();
-	else
-	{
-		graph.printNames(500);
-		cout << "(only first 500 printed)" << endl;
-	}
-
 	cout << "ENTER NAME" << endl;
 	string name;
 	cin >> name;
 	graph.printWins(name);
 	graph.matchmake(name);
-	cout << "##########################DFS#########################" << endl;
 	graph.matchmakeDfs(name);
 
 	return 0;

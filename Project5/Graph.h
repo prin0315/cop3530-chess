@@ -115,7 +115,7 @@ void Graph::matchmake(string name)
 				marked.insert(p.first);
 			}
 		}
-		double wl = (double)wins / (wins + losses);
+		double wl = (double)wins / ((double)wins + losses);
 		cout << "name: " << current << " wl: " << wl << " elo: " << elo << endl;
 	}
 }
