@@ -15,7 +15,6 @@ class Graph
 {
 private:
 	unordered_map<string, vector<pair<string, Game>>> adjList;
-	void visit(string name, int& elo, double& wl);
 public:
 	Graph();
 	void insertGame(Game game);
@@ -74,7 +73,7 @@ void Graph::matchmakeDfs(string name)
 				marked.insert(p.first);
 			}
 		}
-		double wl = (double)wins / (wins + losses);
+		double wl = (double)wins / ((double)wins + losses);
 		cout << "name: " << current << " wl: " << wl << " elo: " << elo << endl;
 	}
 }
