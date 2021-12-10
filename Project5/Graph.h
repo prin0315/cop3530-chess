@@ -8,7 +8,6 @@
 #include <string>
 #include <iostream>
 #include <set>
-#include "DisjointSet.h"
 #include <stack>
 
 using namespace std;
@@ -25,7 +24,6 @@ public:
 	void printNames(int n = INT_MAX);
 	void printWins(string name);
 	void getAdjacent(string vertex);
-	int getElo(string vertex);
 	int DFS(string from, string to);
 	int Djikstra(string source, string dest);
 };
@@ -48,7 +46,9 @@ void Graph::matchmake(string name)
 	q.push(name);
 	marked.insert(name);
 	int counter = 0;
-	int requestedElo = 0;
+	int requestedElo = 0; // stores the elo of the given name
+
+	// since we don't know if they are black or white, look in the graph and return the proper elo
 	if (adjList[name].at(0).second.blackID == name)
 	{
 		requestedElo = stoi(adjList[name].at(0).second.blackElo);
@@ -58,15 +58,17 @@ void Graph::matchmake(string name)
 		requestedElo = stoi(adjList[name].at(0).second.whiteElo);
 	}
 
-	int minElo = INT_MAX;
-	int maxMatches = 0;
-	int closestElo = 0;
-	int requestedMatches = 0;
+	// Use these to find the highest matches and lowest elos.
+	int minElo = INT_MAX; // find lowest elo
+	int maxMatches = 0; // find maximum number of matches
+	int closestElo = 0; // keep track of the lowest elo differences between players
+	int requestedMatches = 0; // stores the number of matches the given player has played
 	while (!q.empty())
 	{
 		string current = q.front();
 		q.pop();
 
+		// default values
 		int elo = -1;
 		int wins = 0;
 		int losses = 0;
@@ -96,21 +98,20 @@ void Graph::matchmake(string name)
 				marked.insert(p.first);
 			}
 
-			if (abs(elo - requestedElo) < minElo && (current != name))
+			/* this finds the player with the closest elo to the given one */
+			if (abs(elo - requestedElo) < minElo && (current != name)) // obviously the same player has a difference of 0, so account for that
 			{
+				/* out of these, take the one with closest number of matches played to the given player*/
 				if (abs((wins + losses) - requestedMatches) > maxMatches)
 				{
-					goodMatches.clear();
-					minElo = abs(elo - requestedElo);
-					maxMatches = abs((wins + losses) - requestedMatches);
-					goodMatches.push_back(current);
-					closestElo = elo;
+					goodMatches.clear(); // clear the vector as we only want to store one value
+					minElo = abs(elo - requestedElo); // keep track of the min elo. absolute value so no negatives
+					maxMatches = abs((wins + losses) - requestedMatches); // keep track of the closest match counts.
+					goodMatches.push_back(current); // push best result so far into the vector
+					closestElo = elo; // keep track of the closest elo
 				}
 			}
 		}
-
-
-		double wl = (double)wins / ((double)wins + losses);
 
 		counter++;
 		if (counter > 20)
@@ -128,6 +129,7 @@ void Graph::matchmake(string name)
 	}
 }
 
+/* DFS algorithm from the lectures 8b - Graph Traversals and Algorithms.pdf Slide 15*/
 int Graph::DFS(string from, string to)
 {
 
@@ -217,6 +219,7 @@ int Graph::Djikstra(string source, string dest)
 	return d[dest];
 }
 
+/* Goes through the graph and print out all nodes adjacent to the one provided */
 void Graph::getAdjacent(string vertex)
 {
 	cout << "Adjacent nodes:" << endl;
@@ -226,25 +229,6 @@ void Graph::getAdjacent(string vertex)
 	}
 
 }
-
-int Graph::getElo(string vertex)
-{
-	vector<pair<string, Game>> opponents = adjList[vertex];
-	unsigned int maxTime = 0;
-	int elo = -1;
-	for (pair<string, Game> p : opponents)
-	{
-		unsigned int time = p.second.getDateTime();
-		if (time > maxTime)
-		{
-			maxTime = time;
-			elo = vertex == p.second.whiteID ? stoi(p.second.whiteElo) : stoi(p.second.blackElo);
-		}
-	}
-	return elo;
-}
-
-
 
 void Graph::printNames(int n)
 {

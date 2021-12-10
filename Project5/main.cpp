@@ -14,6 +14,7 @@ int main()
 	cin >> n;
 
 	cout << "Reading " << n << " rows of data..." << endl;
+
 	//Creates graph and loads in data
 	Reader reader("chess_games.csv");
 	Graph graph;
@@ -22,16 +23,6 @@ int main()
 		Game g = reader.read();
 		graph.insertGame(g);
 	}
-
-	//debug stuff, prints first 500 names in graph and asks for a user whose opponents can be listed
-	/*if (n < 500)
-		graph.printNames();
-	else
-	{
-		graph.printNames(500);
-		cout << "(only first 500 printed)" << endl;
-	}
-	*/
 
 	cout << endl;
 
@@ -101,10 +92,11 @@ int main()
 			string name2;
 			cin >> name2;
 
+			// Chrono from the standard library to time how long each algorithm takes
 			auto start = std::chrono::high_resolution_clock::now();
 			cout << "The Djikstra Shortest Path algorithm found there to be " << graph.Djikstra(name1, name2) << " nodes between " << name1 << " and " << name2 << "." << endl;
 			auto stop = std::chrono::high_resolution_clock::now();
-			auto difference = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start);
+			auto difference = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start); // Find the difference and format it to nanoseconds
 			cout << "It took Djikstra's algorithm " << difference.count() << " nanoseconds." << endl;
 
 			cout << endl;
