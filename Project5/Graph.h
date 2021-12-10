@@ -26,6 +26,7 @@ public:
 	void getAdjacent(string vertex);
 	int DFS(string from, string to);
 	int Djikstra(string source, string dest);
+	int getSize();
 };
 
 Graph::Graph() {}
@@ -235,9 +236,12 @@ void Graph::printNames(int n)
 	int count = 0;
 	for (auto iter = adjList.begin(); iter != adjList.end(); iter++)
 	{
-		cout << count << ": " << iter->first << endl;
+		for (int i = 0; i < iter->second.size(); i++)
+		{
+			cout << count << ": " << iter->second.at(i).first << endl;
+			count++;
+		}
 
-		count++;
 		if (count >= n)
 			break;
 	}
