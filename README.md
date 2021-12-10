@@ -2,3 +2,5 @@ This program relies on the fact that you have the appropriate csv file. Therefor
 
 To get the dataset, click this link and hit the button that says "Download (4GB)".
 Dataset: https://www.kaggle.com/arevel/chess-games?select=chess_games.csv
+
+You may have to make an account.
