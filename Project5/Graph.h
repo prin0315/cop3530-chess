@@ -239,9 +239,12 @@ void Graph::printNames(int n)
 	int count = 0;
 	for (auto iter = adjList.begin(); iter != adjList.end(); iter++)
 	{
-		cout << count << ": " << iter->first << endl;
+		for (int i = 0; i < iter->second.size(); i++)
+		{
+			cout << count << ": " << iter->second.at(i).first << endl;
+			count++;
+		}
 
-		count++;
 		if (count >= n)
 			break;
 	}
@@ -258,4 +261,4 @@ void Graph::printWins(string name)
 		i++;
 		cout << endl;
 	}
-} 
+}
