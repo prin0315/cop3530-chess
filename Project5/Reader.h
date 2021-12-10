@@ -4,6 +4,7 @@
 #include <string>
 #include "Game.h"
 
+//Reads from file
 class Reader
 {
 private:

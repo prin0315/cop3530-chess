@@ -26,7 +26,6 @@ public:
 	void getAdjacent(string vertex);
 	int DFS(string from, string to);
 	int Djikstra(string source, string dest);
-	int getSize();
 };
 
 Graph::Graph() {}
@@ -47,6 +46,7 @@ void Graph::matchmake(string name)
 	q.push(name);
 	marked.insert(name);
 	int counter = 0;
+	int maxCounter = 20; //Caps the number of potential candidates as 20, as higher numbers have diminishing returns
 	int requestedElo = 0; // stores the elo of the given name
 
 	// since we don't know if they are black or white, look in the graph and return the proper elo
@@ -80,15 +80,16 @@ void Graph::matchmake(string name)
 			{
 				requestedMatches++;
 			}
-			bool isWhite = current == p.second.whiteID;
 
-			bool won = isWhite == stoi(p.second.whiteRatingDiff) > 0;
+
+			bool isWhite = current == p.second.whiteID;
+			bool won = isWhite == stoi(p.second.whiteRatingDiff) > 0; //wins are when ELO goes up; ties are not counted
 			if (won)
 				wins++;
 			else
 				losses++;
 			unsigned int time = p.second.getDateTime();
-			if (time > maxTime)
+			if (time > maxTime) //Ensures player's ELO is from their last game played
 			{
 				maxTime = time;
 				elo = isWhite ? stoi(p.second.whiteElo) : stoi(p.second.blackElo);
@@ -114,8 +115,9 @@ void Graph::matchmake(string name)
 			}
 		}
 
+		//Caps loop at maxCounter
 		counter++;
-		if (counter > 20)
+		if (counter > maxCounter)
 			break;
 	}
 
@@ -163,6 +165,7 @@ int Graph::DFS(string from, string to)
 		return visited.size();
 }
 
+/* Djikstra's algorithm adapted from pseudocode in lecture 8b Slide 55*/
 int Graph::Djikstra(string source, string dest)
 {
 	set<string> S;
@@ -183,7 +186,7 @@ int Graph::Djikstra(string source, string dest)
 					if (i->first == dest)
 						return 1;
 					connected = true;
-					d[i->first] = 1;
+					d[i->first] = 1; //if source is right next to destination, quickly exits
 					break;
 				}
 			}
@@ -196,7 +199,7 @@ int Graph::Djikstra(string source, string dest)
 	{
 		int min = INT_MAX;
 		string smallest = "";
-		for (auto i = VS.begin(); i != VS.end(); i++)
+		for (auto i = VS.begin(); i != VS.end(); i++) // finds minimum distance
 		{
 			if (d[*i] < min)
 			{
@@ -214,7 +217,7 @@ int Graph::Djikstra(string source, string dest)
 					d[p.first] = d[smallest] + 1;
 			}
 		}
-		if (smallest == dest)
+		if (smallest == dest) //we don't need lengths of all vertices, just the destination
 			return d[dest];
 	}
 	return d[dest];

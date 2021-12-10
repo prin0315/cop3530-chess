@@ -45,7 +45,7 @@ int main()
 	{
 		case 1:
 
-			cout << "Enter how many names to print. Enter 0 to show all names in the graph." << endl;
+			cout << "Enter 0 to show all names in the graph." << endl;
 			int number;
 			cin >> number;
 			cout << endl;
@@ -96,15 +96,15 @@ int main()
 			auto start = std::chrono::high_resolution_clock::now();
 			cout << "The Djikstra Shortest Path algorithm found there to be " << graph.Djikstra(name1, name2) << " nodes between " << name1 << " and " << name2 << "." << endl;
 			auto stop = std::chrono::high_resolution_clock::now();
-			auto difference = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start); // Find the difference and format it to nanoseconds
-			cout << "It took Djikstra's algorithm " << difference.count() << " nanoseconds." << endl;
+			auto difference = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start); // Find the difference and format it to nanoseconds
+			cout << "It took Djikstra's algorithm " << difference.count() << " milliseconds." << endl;
 
 			cout << endl;
 			start = std::chrono::high_resolution_clock::now();
 			cout << "The DFS Shortest Path algorithm found there to be " << graph.DFS(name1, name2) << " nodes between " << name1 << " and " << name2 << "." << endl;
 			stop = std::chrono::high_resolution_clock::now();
-			difference = std::chrono::duration_cast<std::chrono::nanoseconds>(stop - start);
-			cout << "It took the DFS Shortest Path algorithm " << difference.count() << " nanoseconds." << endl;
+			difference = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
+			cout << "It took the DFS Shortest Path algorithm " << difference.count() << " milliseconds." << endl;
 
 			
 			break;
