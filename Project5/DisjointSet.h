@@ -8,28 +8,28 @@
 
 class DisjointSet {
 
-    unordered_map<int, int> parent;
+    unordered_map<string, string> parent;
 
 public:
-    void makeSet(const set<int>& vertices) {
-        for (int v : vertices) {
+    void makeSet(const set<string>& vertices) {
+        for (string v : vertices) {
             parent[v] = v;
         }
     }
 
     // find the root of the set in which vertex k belongs to 
-    int findRoot(int k) {
+    string findRoot(string k) {
         if (parent[k] == k)
             return k;
         return findRoot(parent[k]);
     }
 
     // union two subsets that a and b are inside 
-    void unionSet(int a, int b) {
+    void unionSet(string a, string b) {
         // find the roots of two sets in which  
   // vertex a and b belongs to 
-        int x = findRoot(a);
-        int y = findRoot(b);
+        string x = findRoot(a);
+        string y = findRoot(b);
 
         parent[y] = x;
     }

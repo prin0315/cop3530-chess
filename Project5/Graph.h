@@ -9,6 +9,7 @@
 #include <iostream>
 #include <set>
 #include "DisjointSet.h"
+#include <stack>
 
 using namespace std;
 
@@ -24,8 +25,9 @@ public:
 	void printNames(int n = INT_MAX);
 	void printWins(string name);
 	void getAdjacent(string vertex);
-	void primAlgorithm(string name);
 	int getElo(string vertex);
+	int DFS(string from, string to);
+	int Djikstra(string source, string dest);
 };
 
 Graph::Graph() {}
@@ -126,6 +128,95 @@ void Graph::matchmake(string name)
 	}
 }
 
+int Graph::DFS(string from, string to)
+{
+
+		std::set<string> visited;
+		std::stack<string> s;
+		visited.insert(from);
+		s.push(from);
+		while (!s.empty())
+		{
+			string u = s.top();
+			s.pop();
+			vector<pair<string, Game>> neighbors = adjList[u];
+			for (pair<string, Game> v : neighbors)
+			{
+				if (v.first == to)
+				{
+					break;
+				}
+				else
+				{
+					if (visited.count(v.first) == 0)
+					{
+						visited.insert(v.first);
+						s.push(v.first);
+					}
+				}
+			}
+		}
+
+		return visited.size();
+}
+
+int Graph::Djikstra(string source, string dest)
+{
+	set<string> S;
+	set<string> VS;
+	unordered_map<string, int> d;
+	S.insert(source);
+	d[source] = 0;
+	for (auto i = adjList.begin(); i != adjList.end(); i++)
+	{
+		if (i->first != source)
+		{
+			VS.insert(i->first);
+			bool connected = false;
+			for (pair<string, Game> p : adjList[i->first])
+			{
+				if (p.first == source)
+				{
+					if (i->first == dest)
+						return 1;
+					connected = true;
+					d[i->first] = 1;
+					break;
+				}
+			}
+			if (!connected)
+				d[i->first] = INT_MAX;
+		}
+	}
+
+	while (!VS.empty())
+	{
+		int min = INT_MAX;
+		string smallest = "";
+		for (auto i = VS.begin(); i != VS.end(); i++)
+		{
+			if (d[*i] < min)
+			{
+				min = d[*i];
+				smallest = *i;
+			}
+		}
+		VS.erase(smallest);
+		S.insert(smallest);
+		for (pair<string, Game> p : adjList[smallest])
+		{
+			if (VS.find(p.first) != VS.end())
+			{
+				if (d[smallest] + 1 < d[p.first])
+					d[p.first] = d[smallest] + 1;
+			}
+		}
+		if (smallest == dest)
+			return d[dest];
+	}
+	return d[dest];
+}
+
 void Graph::getAdjacent(string vertex)
 {
 	cout << "Adjacent nodes:" << endl;
@@ -153,83 +244,6 @@ int Graph::getElo(string vertex)
 	return elo;
 }
 
-
-//void Graph::primAlgorithm(string name)
-//{
-//	set<string> T;
-//	set<string> adjacents;
-//	T.insert(name);
-//	vector<pair<string, Game>> adjacent = adjList[name];
-//
-//	string minName = "";
-//	int minElo = INT_MAX;
-//	for (int i = 0; i < adjacent.size(); i++)
-//	{
-//		adjacents.insert(adjacent[i].first);
-//
-//	}
-//
-//	while (!adjacents.empty())
-//	{
-//		for (int i = 1; i < adjacent.size() - 1; i++)
-//		{
-//			if (getElo(adjacent.at(i).first) < minElo && T.find(adjacent.at(i).first) == T.end())
-//			{
-//				minElo = getElo(adjacent.at(i).first);
-//				minName = adjacent.at(i).first;
-//			}
-//		}
-//
-//		T.insert(minName);
-//		adjacents.erase(minName);
-//		minElo = INT_MAX;
-//	}
-//
-//	for (auto itr = T.begin(); itr != T.end(); ++itr)
-//	{
-//		cout << *itr << " ";
-//	}
-//
-//}
-
-void Graph::primAlgorithm(string name)
-{
-	set<string> T;
-	unordered_map<string, int> keys;
-	unordered_map<string, string> MST;
-	for (auto i = adjList.begin(); i != adjList.end(); i++)
-		keys[i->first] = INT_MAX;
-	keys[name] = 0;
-	int safety = 0;
-
-	while (T.size() != adjList.size())
-	{
-		int min = INT_MAX;
-		string key;
-		for (auto i = keys.begin(); i != keys.end(); i++)
-		{
-			if (T.find(i->first) == T.end() && i->second < min)
-			{
-				min = i->second;
-				key = i->first;
-			}
-		}
-		T.insert(key);
-		for (pair<string, Game> p : adjList[key])
-		{
-			int weight = p.second.whiteID == p.first ? stoi(p.second.whiteRatingDiff) : stoi(p.second.blackRatingDiff);
-			keys[p.first] = std::min(keys[p.first], weight);
-			MST[p.first] = key;
-		}
-		safety++;
-		if (safety % 10 == 0)
-			cout << key;
-		if (safety > INT_MAX)
-			throw std::invalid_argument("Infinite while loop");
-	}
-
-	cout << "DONE" << endl;
-}
 
 
 void Graph::printNames(int n)
