@@ -25,24 +25,27 @@ int main()
 	}
 
 	cout << endl;
-
-	cout << "Features:" << endl;
-	cout << "1) Display all names in the graph." << endl;
-	cout << "2) Display all adjacent nodes of a specific player." << endl;
-	cout << "3) Print the stats of every game the person has played. " << endl;
-	cout << "4) Find the best match for a specific player." << endl;
-	cout << "5) Compare Dijkstra and DFS Shortest Path Algorithms." << endl;
-	cout << endl;
-	cout << "Enter the corresponding number for each feature: ";
 	
-	int option = -1;
-	cin >> option;
-
-	cout << endl;
+	int option = -2;
 
 	string name;
-	switch (option)
+	while (option != -1)
 	{
+		cout << "Features:" << endl;
+		cout << "1) Display all names in the graph." << endl;
+		cout << "2) Display all adjacent nodes of a specific player." << endl;
+		cout << "3) Print the stats of every game the person has played. " << endl;
+		cout << "4) Find the best match for a specific player." << endl;
+		cout << "5) Compare Dijkstra and DFS Shortest Path Algorithms." << endl;
+		cout << endl;
+		cout << "Enter the corresponding number for each feature: ";
+
+		cin >> option;
+
+		cout << endl;
+
+		switch (option)
+		{
 		case 1:
 
 			cout << "Enter 0 to show all names in the graph." << endl;
@@ -106,8 +109,10 @@ int main()
 			difference = std::chrono::duration_cast<std::chrono::milliseconds>(stop - start);
 			cout << "It took the DFS Shortest Path algorithm " << difference.count() << " milliseconds." << endl;
 
-			
+
 			break;
+		}
+		cout << endl;
 	}
 
 	return 0;
